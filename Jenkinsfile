@@ -40,6 +40,12 @@ pipeline {
         }
 
 
+        stage ('Deploy Backend') {
+            steps {
+                deploy adapters: [tomcat8(credentialsId: 'TomcatLogin', path: '', url: 'http://host.docker.internal:8001')], contextPath: 'tasks-backend', war: 'target/tasks-backend.war'
+            }
+        }
+
 
     }
 
