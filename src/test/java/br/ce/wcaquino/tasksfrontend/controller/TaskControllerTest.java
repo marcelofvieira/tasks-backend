@@ -23,10 +23,9 @@ public class TaskControllerTest {
 	@InjectMocks
 	private TaskController controller;
 	
-	
 	@Before
-	public void setup() {
-		
+	public void setup() 
+	{
 		MockitoAnnotations.initMocks(this);		
 	}
 	
