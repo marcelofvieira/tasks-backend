@@ -49,10 +49,31 @@ pipeline {
         
         stage ('Api Test') {
             steps {
-                git credentialsId: 'LoginGit', url: 'https://github.com/marcelofvieira/tasks-api-test.git'
-                sh 'mvn test'            
+                dir ('api-test') {
+                    git credentialsId: 'LoginGit', url: 'https://github.com/marcelofvieira/tasks-api-test.git'
+                    sh 'mvn test'            
+                }
             }
         }
+
+
+        stage ('Deploy Frontend') {
+            steps {
+
+                dir ('task-frontend') {
+                    git credentialsId: 'LoginGit', url: 'https://github.com/marcelofvieira/tasks-frontend.git'
+
+                    sh 'mvn clean package'
+
+                    deploy adapters: [tomcat8(credentialsId: 'TomcatLogin', path: '', url: 'http://host.docker.internal:8001')], contextPath: 'tasks', war: 'target/tasks.war'              
+                }
+
+            }
+        }
+
+
+
+
 
     }
 
